@@ -1,70 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_isint.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/23 10:46:12 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/23 11:47:48 by vviterbo         ###   ########.fr       */
+/*   Created: 2024/10/30 13:32:18 by vviterbo          #+#    #+#             */
+/*   Updated: 2025/02/23 16:13:38 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void			*ft_calloc(size_t count, size_t size);
-int				ft_atoi(const char *str);
 int				ft_isint(char *str);
 static size_t	get_size(long n);
 static bool		isin_intrange(char *str, bool isneg);
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void			*ptr;
-	unsigned char	*bptr;
-	size_t			i;
-
-	i = 0;
-	if (!count || !size)
-		return (malloc(0));
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	bptr = (unsigned char *)ptr;
-	while (i < (count * size))
-	{
-		*(bptr + i) = '\0';
-		i++;
-	}
-	return (ptr);
-}
-
-int	ft_atoi(const char *str)
-{
-	size_t	i;
-	int		sign;
-	int		number;
-
-	i = 0;
-	sign = 1;
-	number = 0;
-	while (ft_iswhitespace_eq(str[i]))
-		i++;
-	if (str[i] == '-')
-	{
-		sign *= -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	while ('0' <= str[i] && str[i] <= '9')
-	{
-		number = number * 10 + str[i] - '0';
-		i++;
-	}
-	return (sign * number);
-}
 
 int	ft_isint(char *str)
 {
