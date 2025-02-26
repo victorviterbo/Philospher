@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/26 16:12:37 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:13:49 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ int	*parse_args(int argc, char *argv[])
 		args[argc - 1] = ft_atoi(argv[argc]);
 		argc++;
 	}
-	printf("NUM_OF_PHILO = %i\n", args[NUM_OF_PHILO]);
-	printf("TIME_TO_DIE = %i\n", args[TIME_TO_DIE]);
-	printf("TIME_TO_EAT = %i\n", args[TIME_TO_EAT]);
-	printf("TIME_TO_SLEEP = %i\n", args[TIME_TO_SLEEP]);
-	printf("NUM_MEALS = %i\n", args[NUM_MEALS]);
 	return (args);
 }
 
@@ -72,7 +67,6 @@ int	spawn_threads(t_philo **philo)
 	pthread_t		*threads;
 	int				i;
 
-	printf("NUM_OF_PHILO = %i\n", philo[0]->param[NUM_OF_PHILO]);
 	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(pthread_t));
 	if (!threads)
 	{
@@ -95,15 +89,6 @@ int	spawn_threads(t_philo **philo)
 	while (checkphilo(philo) == false)
 	{
 	}
-	/*while (i < philo[0]->param[NUM_OF_PHILO])
-	{
-		if (pthread_join(threads[i], NULL) != 0)
-		{
-			printf("ERROR could not join thread %i\n", i);
-			return (1);
-		}
-		i++;
-	}*/
 	if (philo[0]->state == FED)
 		printf("philo exited with all philos alive :)\n");
 	else

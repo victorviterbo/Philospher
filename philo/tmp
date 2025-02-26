@@ -1,0 +1,13 @@
+1740592427: Philo 3	 has taken a fork
+1740592427: Philo 3	 has started eating
+1740592427: Philo 1	 has taken a fork
+1740592427: Philo 1	 has started eating
+1740592630: Philo 3	 has started sleeping
+1740592630: Philo 4	 has taken a fork
+1740592630: Philo 4	 has started eating
+1740592630: Philo 1	 has started sleeping
+1740592630: Philo 2	 has taken a fork
+1740592630: Philo 2	 has started eating
+1740592734: Philo 3	 has started thinking
+1740592735: Philo 1	 has started thinking
+philo exited with at least one death :(
