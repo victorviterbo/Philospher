@@ -6,7 +6,7 @@
 #    By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/22 20:24:47 by vviterbo          #+#    #+#              #
-#    Updated: 2025/02/26 16:02:53 by vviterbo         ###   ########.fr        #
+#    Updated: 2025/02/27 17:20:07 by vviterbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS_UTILS_F =	ft_calloc.c ft_isint.c ft_itoa.c ft_memcmp.c ft_strlen.c \
 
 SRCS_UTILS = $(addprefix ./srcs/utils/, $(SRCS_UTILS_F))
 
-SRCS_MAIN_F =	philo.c states.c checkphilo.c
+SRCS_MAIN_F =	philo.c states.c utils_philo.c
 
 SRCS_MAIN = $(addprefix ./srcs/, $(SRCS_MAIN_F))
 

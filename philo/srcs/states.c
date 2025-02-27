@@ -6,17 +6,15 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/26 18:46:15 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:18:26 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	*life(void *param);
-int		gettime(void);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
-void	safe_print(t_philo *philo);
 
 void	*life(void *param)
 {
@@ -26,6 +24,7 @@ void	*life(void *param)
 	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
 	while (gettime() < philo->time_death)
 	{
+		
 		philo_eat(philo);
 		if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
 		{
@@ -80,32 +79,5 @@ void	philo_sleep(t_philo *philo)
 	usleep(1000 * philo->param[TIME_TO_SLEEP]);
 	philo->state = THINKING;
 	safe_print(philo);
-	return ;
-}
-
-int	gettime(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) != 0)
-		return (-1);
-	return ((int)(tv.tv_sec + tv.tv_usec / 1000));
-}
-
-void	safe_print(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->forks->lock);
-	if (philo->state == EATING)
-	{
-		printf("%i: Philo %i\t has taken a fork\n", gettime(), philo->id + 1);
-		printf("%i: Philo %i\t has started eating\n", gettime(), philo->id + 1);
-	}
-	else if (philo->state == THINKING)
-		printf("%i: Philo %i\t has started thinking\n", gettime(), philo->id + 1);
-	else if (philo->state == SLEEPING)
-		printf("%i: Philo %i\t has started sleeping\n", gettime(), philo->id + 1);
-	else if (philo->state == DEAD)
-		printf("%i: Philo %i\t died\n", gettime(), philo->id + 1);
-	pthread_mutex_unlock(&philo->forks->lock);
 	return ;
 }

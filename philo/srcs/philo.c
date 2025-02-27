@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/26 16:13:49 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:21:44 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	spawn_threads(t_philo **philo)
 		if (pthread_create(&threads[i], NULL, &life, (void *)philo[i]) != 0)
 			printf("ERROR: could not create thread %i\n", i);
 		pthread_detach(threads[i]);
+		usleep(1000);
 		i++;
 	}
 	while (checkphilo(philo) == false)
