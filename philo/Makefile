@@ -6,7 +6,7 @@
 #    By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/22 20:24:47 by vviterbo          #+#    #+#              #
-#    Updated: 2025/02/27 17:20:07 by vviterbo         ###   ########.fr        #
+#    Updated: 2025/02/28 15:52:58 by vviterbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,9 @@ INCLUDE = -I./include/
 all: folders $(NAME)
 
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean
 	@rm -f objs/*.o
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@rm -f $(BIN)$(NAME)
 
 re: fclean all

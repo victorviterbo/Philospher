@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/28 13:09:44 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:22:47 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	*life(void *param)
 		philo_eat(philo);
 		if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
 		{
+			printf("philo %i has eaten enough (%i/%i)\n", philo->id, philo->meals, philo->param[NUM_MEALS]);
 			philo->state = FED;
 			return (NULL);
 		}
@@ -56,8 +57,8 @@ void	distribute_forks(t_philo *philo)
 		return ;
 	while (true)
 	{
-		while (philo->forks->flist[(i + offset)]
-			|| philo->forks->flist[(i + 1 + offset) % philo->param[NUM_OF_PHILO]])
+		while (philo->forks->flist[(i + offset)] || philo->forks->flist[
+				(i + 1 + offset) % philo->param[NUM_OF_PHILO]])
 		{
 		}
 		pthread_mutex_lock(&philo->forks->lock);
