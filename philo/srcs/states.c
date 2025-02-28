@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/28 19:04:06 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/28 19:34:35 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,19 @@ void	distribute_forks(t_philo *philo)
 		return ;
 	while (true)
 	{
-		next = (i + 1) % philo->param[NUM_OF_PHILO];
+		next = (i + offset + 1) % philo->param[NUM_OF_PHILO];
 		while (philo->shared->forks[i] || philo->shared->forks[next])
 		{
 		}
-		pthread_mutex_lock(&philo->shared->lock[i]);
-		philo->shared->forks[i] = i + 1;
-		pthread_mutex_unlock(&philo->shared->lock[i]);
-		pthread_mutex_lock(&philo->shared->lock[next]);
-		philo->shared->forks[next] = i + 1;
-		pthread_mutex_unlock(&philo->shared->lock[next]);
-		pthread_mutex_lock(&philo->philos[i + 1]->state_lock);
-		philo->philos[i + 1]->state = HAS_FORK;
-		pthread_mutex_unlock(&philo->philos[i + 1]->state_lock);
-		printf("i = %i\n", i);
-		safe_print(philo->philos[i + 1]);
+		change_fork(philo, i + offset, i + offset + 1);
+		pthread_mutex_lock(&philo->philos[i + offset + 1]->state_lock);
+		philo->philos[i + offset + 1]->state = HAS_FORK;
+		safe_print(philo->philos[i + offset + 1]);
+		pthread_mutex_unlock(&philo->philos[i + offset + 1]->state_lock);
+		usleep(10000);
 		i = (i + 2) % philo->param[NUM_OF_PHILO];
 		if (i == 0)
-		{
-			offset = (philo->param[NUM_OF_PHILO] % 2 == 0) * (offset % 2 == 0);
-			i += offset;
-		}
+			offset = (philo->param[NUM_OF_PHILO] % 2 == 0) * (offset == 0);
 		if (philo->state == TERMINATE)
 			return ;
 	}
@@ -85,25 +77,19 @@ void	distribute_forks(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	int		fleft;
-	int		fright;
+	bool	has_fork;
 
-	fleft = (philo->id - 1);
-	fright = (philo->id) % philo->param[NUM_OF_PHILO];
-	while (philo->state != HAS_FORK && gettime() < philo->time_death)
+	has_fork = false;
+	while (!has_fork && gettime() < philo->time_death)
 	{
+		pthread_mutex_lock(&philo->state_lock);
+		has_fork = philo->state == HAS_FORK;
+		pthread_mutex_unlock(&philo->state_lock);
 	}
 	if (gettime() >= philo->time_death)
 	{
 		if (philo->state == HAS_FORK)
-		{
-			pthread_mutex_lock(&philo->shared->lock[philo->id - 1]);
-			philo->shared->forks[fleft] = 0;
-			pthread_mutex_unlock(&philo->shared->lock[philo->id - 1]);
-			pthread_mutex_lock(&philo->shared->lock[philo->id]);
-			philo->shared->forks[fright] = 0;
-			pthread_mutex_unlock(&philo->shared->lock[philo->id]);
-		}
+			change_fork(philo, philo->id - 1, 0);
 		pthread_mutex_lock(&philo->state_lock);
 		philo->state = DEAD;
 		pthread_mutex_unlock(&philo->state_lock);
@@ -116,12 +102,7 @@ void	philo_eat(t_philo *philo)
 	safe_print(philo);
 	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
 	usleep(1000 * philo->param[TIME_TO_EAT]);
-	pthread_mutex_lock(&philo->shared->lock[philo->id - 1]);
-	philo->shared->forks[fleft] = 0;
-	pthread_mutex_unlock(&philo->shared->lock[philo->id - 1]);
-	pthread_mutex_lock(&philo->shared->lock[philo->id]);
-	philo->shared->forks[fright] = 0;
-	pthread_mutex_unlock(&philo->shared->lock[philo->id]);
+	change_fork(philo, philo->id - 1, 0);
 	philo->meals++;
 	return ;
 }
