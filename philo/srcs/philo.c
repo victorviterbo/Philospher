@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/27 17:21:44 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:48:26 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	spawn_threads(t_philo **philo)
 	pthread_t		*threads;
 	int				i;
 
-	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(pthread_t));
+	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO] + 1, sizeof(pthread_t));
 	if (!threads)
 	{
 		printf("ERROR: memory allocation failed, exiting...\n");
@@ -79,20 +79,27 @@ int	spawn_threads(t_philo **philo)
 		return (EXIT_FAILURE);
 	}
 	i = 0;
-	while (i < philo[0]->param[NUM_OF_PHILO])
+	while (i < philo[0]->param[NUM_OF_PHILO] + 1)
 	{
 		if (pthread_create(&threads[i], NULL, &life, (void *)philo[i]) != 0)
+		{
 			printf("ERROR: could not create thread %i\n", i);
-		pthread_detach(threads[i]);
-		usleep(1000);
+			return (EXIT_FAILURE);
+		}
+		if (pthread_detach(threads[i]) != 0)
+		{
+			printf("ERROR: could not detach thread %i\n", i);
+			return (EXIT_FAILURE);
+		}
 		i++;
 	}
-	while (checkphilo(philo) == false)
+	while (!checkphilo(philo))
 	{
 	}
-	if (philo[0]->state == FED)
+	philo[0]->state = TERMINATE;
+	if (checkphilo(philo) == FED)
 		printf("philo exited with all philos alive :)\n");
-	else
+	else if (checkphilo(philo) == DEAD)
 		printf("philo exited with at least one death :(\n");
 	return (0);
 }
@@ -103,10 +110,10 @@ t_philo	**init_philo(int *args)
 	t_philo	**philo;
 
 	i = 0;
-	philo = ft_calloc(args[NUM_OF_PHILO], sizeof(t_philo *));
+	philo = ft_calloc(args[NUM_OF_PHILO] + 1, sizeof(t_philo *));
 	if (!philo)
 		return (NULL);
-	while (i < args[NUM_OF_PHILO])
+	while (i < args[NUM_OF_PHILO] + 1)
 	{
 		philo[i] = ft_calloc(1, sizeof(t_philo));
 		if (!philo[i])
@@ -120,25 +127,28 @@ t_philo	**init_philo(int *args)
 
 void	*init_forks(t_philo **philo)
 {
-	int		i;
-	t_forks	*forks;
+	int				i;
+	t_forks			*forks;
+	pthread_mutex_t print_lock;
 
 	i = 0;
 	forks = ft_calloc(1, sizeof(t_forks));
 	if (!forks)
 		return (free(philo), NULL);
-	forks->forklist = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(bool));
-	if (!forks->forklist)
+	forks->flist = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(int));
+	if (!forks->flist)
 		return (free(forks), free(philo), NULL);
 	while (i < philo[0]->param[NUM_OF_PHILO])
 	{
-		forks->forklist[i] = true;
+		forks->flist[i] = 0;
 		i++;
 	}
 	i = 0;
-	while (i < philo[0]->param[NUM_OF_PHILO])
+	pthread_mutex_init(&print_lock, NULL);
+	while (i < philo[0]->param[NUM_OF_PHILO] + 1)
 	{
 		philo[i]->forks = forks;
+		philo[i]->print_lock = print_lock;
 		i++;
 	}
 	return (NULL);

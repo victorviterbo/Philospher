@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/27 17:19:54 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:37:57 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef enum e_philostate
 	THINKING,
 	SLEEPING,
 	EATING,
-	FORK,
+	TERMINATE,
 	DEAD,
 	FED
 }	t_philostate;
@@ -46,7 +46,7 @@ typedef struct s_philo
 	int				state;
 	int				time_death;
 	struct s_forks	*forks;
-	pthread_mutex_t	lock;
+	pthread_mutex_t	print_lock;
 	int				*param;
 	int				meals;
 	pthread_t		thread;
@@ -55,7 +55,7 @@ typedef struct s_philo
 
 typedef struct s_forks
 {
-	bool			*forklist;
+	int				*flist;
 	pthread_mutex_t	lock;
 }	t_forks;
 
@@ -77,6 +77,7 @@ int		spawn_threads(t_philo **philo);
 t_philo	**init_philo(int *args);
 
 void	*life(void *param);
+void	distribute_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
