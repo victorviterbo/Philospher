@@ -6,14 +6,14 @@
 #    By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/22 20:24:47 by vviterbo          #+#    #+#              #
-#    Updated: 2025/02/28 15:52:58 by vviterbo         ###   ########.fr        #
+#    Updated: 2025/02/28 16:51:43 by vviterbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = philo
 
-CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SRCS_UTILS_F =	ft_calloc.c ft_isint.c ft_itoa.c ft_memcmp.c ft_strlen.c \
 				ft_atoi.c ft_number_len.c ft_iswhitespace_eq.c ft_strchr.c \
@@ -29,7 +29,7 @@ SRCS = $(SRCS_MAIN) $(SRCS_UTILS)
 
 BIN = ./
 
-CC = gcc
+CC = cc
 
 INCLUDE = -I./include/
 

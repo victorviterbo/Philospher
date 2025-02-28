@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:53:34 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/28 16:34:20 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:51:17 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		checkphilo(t_philo **philo);
 int		gettime(void);
 void	safe_print(t_philo *philo);
-void	philo_finish(t_philo **philo);
+void	philo_finish(t_philo **philo, pthread_t *threads);
 
 int	checkphilo(t_philo **philo)
 {
@@ -46,35 +46,70 @@ int	gettime(void)
 
 void	safe_print(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->print_lock);
-	if (philo->state == EATING)
+	if (philo->state == HAS_FORK)
 	{
+		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has taken a fork\n", gettime(), philo->id);
+		pthread_mutex_unlock(&philo->shared->print_lock);
+	}
+	else if (philo->state == EATING)
+	{
+		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has started eating\n", gettime(), philo->id);
+		pthread_mutex_unlock(&philo->shared->print_lock);
 	}
 	else if (philo->state == THINKING)
+	{
+		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has started thinking\n", gettime(), philo->id);
+		pthread_mutex_unlock(&philo->shared->print_lock);
+	}
 	else if (philo->state == SLEEPING)
+	{
+		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has started sleeping\n", gettime(), philo->id);
+		pthread_mutex_unlock(&philo->shared->print_lock);
+	}
 	else if (philo->state == DEAD)
+	{
+		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t died\n", gettime(), philo->id);
-	pthread_mutex_unlock(&philo->print_lock);
+		pthread_mutex_unlock(&philo->shared->print_lock);
+	}
 	return ;
 }
 
-void	philo_finish(t_philo **philo)
+void	philo_finish(t_philo **philo, pthread_t *threads)
 {
 	int	num_of_philo;
+	int	i;
 
 	num_of_philo = philo[0]->param[NUM_OF_PHILO];
 	while (!checkphilo(philo))
 	{
 	}
 	philo[0]->state = TERMINATE;
-	free(philo[0]->forks->flist);
-	pthread_mutex_destroy(&philo[0]->forks->lock);
-	free(philo[0]->forks);
+	i = 0;
+	while (i < num_of_philo + 1)
+	{
+		if (pthread_join(threads[i], NULL) != 0)
+		{
+			printf("ERROR: could not join thread %i\n", i);
+			return ;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < num_of_philo + 1)
+	{
+		pthread_mutex_destroy(&philo[0]->state_lock);
+		if (i < num_of_philo)
+			pthread_mutex_destroy(&philo[0]->shared->lock[i]);
+		i++;
+	}
+	free(philo[0]->shared->forks);
+	free(philo[0]->shared);
 	free(philo[0]->param);
-	pthread_mutex_destroy(&philo[0]->print_lock);
+	pthread_mutex_destroy(&philo[0]->shared->print_lock);
 	ft_free_array((void **)philo, num_of_philo + 1);
 }

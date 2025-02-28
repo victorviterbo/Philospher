@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/28 15:52:34 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:06:45 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ typedef enum e_philostate
 	THINKING,
 	SLEEPING,
 	EATING,
-	TERMINATE,
+	HAS_FORK,
 	DEAD,
+	TERMINATE,
 	FED
 }	t_philostate;
 
@@ -45,19 +46,19 @@ typedef struct s_philo
 	int				id;
 	int				state;
 	int				time_death;
-	struct s_forks	*forks;
-	pthread_mutex_t	print_lock;
+	struct s_shared	*shared;
+	pthread_mutex_t	state_lock;
 	int				*param;
 	int				meals;
-	pthread_t		thread;
+	struct s_philo	**philos;	
 }	t_philo;
 
-
-typedef struct s_forks
+typedef struct s_shared
 {
-	int				*flist;
-	pthread_mutex_t	lock;
-}	t_forks;
+	int				*forks;
+	pthread_mutex_t	*lock;
+	pthread_mutex_t	print_lock;
+}	t_shared;
 
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
@@ -84,6 +85,6 @@ void	philo_sleep(t_philo *philo);
 int		checkphilo(t_philo **philo);
 int		gettime(void);
 void	safe_print(t_philo *philo);
-void	philo_finish(t_philo **philo);
+void	philo_finish(t_philo **philo, pthread_t *threads);
 
 #endif
