@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/28 19:34:35 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/02 22:06:06 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*life(void *param)
 		philo_sleep(philo);
 	}
 	philo->state = DEAD;
-	safe_print(philo);
+	safe_print(philo, gettime(), DEAD);
 	return (NULL);
 }
 
@@ -58,15 +58,10 @@ void	distribute_forks(t_philo *philo)
 	while (true)
 	{
 		next = (i + offset + 1) % philo->param[NUM_OF_PHILO];
-		while (philo->shared->forks[i] || philo->shared->forks[next])
+		while (philo->shared->forks[i + offset] || philo->shared->forks[next])
 		{
+			usleep(1);
 		}
-		change_fork(philo, i + offset, i + offset + 1);
-		pthread_mutex_lock(&philo->philos[i + offset + 1]->state_lock);
-		philo->philos[i + offset + 1]->state = HAS_FORK;
-		safe_print(philo->philos[i + offset + 1]);
-		pthread_mutex_unlock(&philo->philos[i + offset + 1]->state_lock);
-		usleep(10000);
 		i = (i + 2) % philo->param[NUM_OF_PHILO];
 		if (i == 0)
 			offset = (philo->param[NUM_OF_PHILO] % 2 == 0) * (offset == 0);
@@ -77,29 +72,24 @@ void	distribute_forks(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	bool	has_fork;
-
-	has_fork = false;
-	while (!has_fork && gettime() < philo->time_death)
+	while (!philo->has_forks && gettime() <= philo->time_death)
 	{
-		pthread_mutex_lock(&philo->state_lock);
-		has_fork = philo->state == HAS_FORK;
-		pthread_mutex_unlock(&philo->state_lock);
+		usleep(1);
 	}
-	if (gettime() >= philo->time_death)
+	if (gettime() > philo->time_death)
 	{
-		if (philo->state == HAS_FORK)
+		if (philo->has_forks)
 			change_fork(philo, philo->id - 1, 0);
 		pthread_mutex_lock(&philo->state_lock);
 		philo->state = DEAD;
 		pthread_mutex_unlock(&philo->state_lock);
-		safe_print(philo);
+		safe_print(philo, gettime(), DEAD);
 		return ;
 	}
 	pthread_mutex_lock(&philo->state_lock);
 	philo->state = EATING;
 	pthread_mutex_unlock(&philo->state_lock);
-	safe_print(philo);
+	safe_print(philo, gettime(), EATING);
 	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
 	usleep(1000 * philo->param[TIME_TO_EAT]);
 	change_fork(philo, philo->id - 1, 0);
@@ -112,11 +102,11 @@ void	philo_sleep(t_philo *philo)
 	pthread_mutex_lock(&philo->state_lock);
 	philo->state = SLEEPING;
 	pthread_mutex_unlock(&philo->state_lock);
-	safe_print(philo);
+	safe_print(philo, gettime(), SLEEPING);
 	usleep(1000 * philo->param[TIME_TO_SLEEP]);
 	pthread_mutex_lock(&philo->state_lock);
 	philo->state = THINKING;
 	pthread_mutex_unlock(&philo->state_lock);
-	safe_print(philo);
+	safe_print(philo, gettime(), THINKING);
 	return ;
 }
