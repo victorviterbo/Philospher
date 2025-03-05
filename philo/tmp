@@ -1,102 +1,153 @@
-1486127197: Philo 1	 has taken a fork
-1486127197: Philo 3	 has taken a fork
-1486127197: Philo 1	 has started eating
-1486127197: Philo 3	 has started eating
-1486127400: Philo 1	 has started sleeping
-1486127400: Philo 3	 has started sleeping
-1486127400: Philo 2	 has taken a fork
-1486127400: Philo 2	 has started eating
-1486127400: Philo 4	 has taken a fork
-1486127400: Philo 4	 has started eating
-1486127600: Philo 1	 has started thinking
-1486127600: Philo 1	 has started eating
-1486127600: Philo 3	 has started thinking
-1486127600: Philo 3	 has started eating
-1486127600: Philo 4	 has started sleeping
-1486127600: Philo 1	 has taken a fork
-1486127600: Philo 3	 has taken a fork
-1486127600: Philo 2	 has started sleeping
-1486127800: Philo 4	 has started thinking
-1486127800: Philo 4	 has started eating
-1486127800: Philo 3	 has started sleeping
-1486127800: Philo 1	 has started sleeping
-1486127800: Philo 2	 has taken a fork
-1486127800: Philo 4	 has taken a fork
-1486127802: Philo 2	 has started thinking
-1486127802: Philo 2	 has started eating
-1486128001: Philo 3	 has started thinking
-1486128001: Philo 3	 has started eating
-1486128001: Philo 4	 has started sleeping
-1486128001: Philo 1	 has started thinking
-1486128001: Philo 1	 has started eating
-1486128004: Philo 2	 has started sleeping
-1486128004: Philo 1	 has taken a fork
-1486128004: Philo 3	 has taken a fork
-1486128203: Philo 3	 has started sleeping
-1486128205: Philo 1	 has started sleeping
-1486128205: Philo 2	 has taken a fork
-1486128205: Philo 4	 has taken a fork
-1486128205: Philo 2	 has started thinking
-1486128205: Philo 2	 has started eating
-1486128205: Philo 4	 has started thinking
-1486128205: Philo 4	 has started eating
-1486128403: Philo 3	 has started thinking
-1486128403: Philo 3	 has started eating
-1486128407: Philo 1	 has started thinking
-1486128408: Philo 1	 has started eating
-1486128407: Philo 2	 has started sleeping
-1486128408: Philo 4	 has started sleeping
-1486128408: Philo 1	 has taken a fork
-1486128408: Philo 3	 has taken a fork
-1486128603: Philo 3	 has started sleeping
-1486128612: Philo 4	 has started thinking
-1486128612: Philo 1	 has started sleeping
-1486128612: Philo 4	 has started eating
-1486128612: Philo 2	 has started thinking
-1486128612: Philo 2	 has started eating
-1486128612: Philo 2	 has taken a fork
-1486128612: Philo 4	 has taken a fork
-1486128803: Philo 3	 has started thinking
-1486128803: Philo 3	 has started eating
-1486128816: Philo 1	 has started thinking
-1486128816: Philo 2	 has started sleeping
-1486128816: Philo 4	 has started sleeping
-1486128817: Philo 1	 has taken a fork
-1486128817: Philo 3	 has taken a fork
-1486128816: Philo 1	 has started eating
-1486129004: Philo 3	 has started sleeping
-1486129017: Philo 2	 has started thinking
-1486129017: Philo 2	 has started eating
-1486129017: Philo 1	 has started sleeping
-1486129017: Philo 4	 has started thinking
-1486129017: Philo 2	 has taken a fork
-1486129017: Philo 4	 has taken a fork
-1486129017: Philo 4	 has started eating
-1486129204: Philo 3	 has started thinking
-1486129204: Philo 3	 has started eating
-1486129217: Philo 2	 has started sleeping
-1486129217: Philo 1	 has started thinking
-1486129217: Philo 1	 has started eating
-1486129217: Philo 4	 has started sleeping
-1486129217: Philo 1	 has taken a fork
-1486129217: Philo 3	 has taken a fork
-1486129406: Philo 3	 has started sleeping
-1486129417: Philo 2	 has started thinking
-1486129417: Philo 2	 has started eating
-1486129417: Philo 1	 has started sleeping
-1486129417: Philo 4	 has started thinking
-1486129417: Philo 4	 has started eating
-1486129417: Philo 2	 has taken a fork
-1486129417: Philo 4	 has taken a fork
-1486129609: Philo 3	 has started thinking
-1486129609: Philo 3	 has started eating
-1486129617: Philo 4	 has started sleeping
-1486129621: Philo 2	 has started sleeping
-1486129621: Philo 1	 has started thinking
-1486129621: Philo 1	 has started eating
-1486129621: Philo 1	 has taken a fork
-1486129621: Philo 3	 has taken a fork
-1486129810: Philo 3	 has started sleeping
-1486129817: Philo 4	 has started thinking
-1486129817: Philo 4	 has started eating
-1486129824: 
+1488068436: Philo 1      has taken a fork
+1488068436: Philo 1      has started eating
+1488068436: Philo 3      has taken a fork
+1488068436: Philo 3      has started eating
+1488068636: Philo 1      has started sleeping
+1488068637: Philo 3      has started sleeping
+1488068637: Philo 2      has taken a fork
+1488068637: Philo 4      has taken a fork
+1488068637: Philo 4      has started eating
+1488068637: Philo 2      has started eating
+1488068838: Philo 3      has started thinking
+1488068838: Philo 3      has started eating
+1488068838: Philo 4      has started sleeping
+1488068839: Philo 1      has started thinking
+1488068839: Philo 1      has started eating
+1488068840: Philo 2      has started sleeping
+1488068840: Philo 1      has taken a fork
+1488068840: Philo 3      has taken a fork
+1488069039: Philo 1      has started sleeping
+1488069042: Philo 3      has started sleeping
+1488069042: Philo 4      has started thinking
+1488069042: Philo 4      has started eating
+1488069042: Philo 2      has taken a fork
+1488069042: Philo 4      has taken a fork
+1488069042: Philo 2      has started thinking
+1488069042: Philo 2      has started eating
+1488069244: Philo 1      has started thinking
+1488069244: Philo 1      has started eating
+1488069244: Philo 3      has started thinking
+1488069244: Philo 3      has started eating
+1488069244: Philo 2      has started sleeping
+1488069244: Philo 4      has started sleeping
+1488069244: Philo 1      has taken a fork
+1488069244: Philo 3      has taken a fork
+1488069448: Philo 1      has started sleeping
+1488069449: Philo 4      has started thinking
+1488069449: Philo 2      has started thinking
+1488069449: Philo 2      has started eating
+1488069449: Philo 4      has started eating
+1488069449: Philo 3      has started sleeping
+1488069449: Philo 2      has taken a fork
+1488069449: Philo 4      has taken a fork
+1488069649: Philo 1      has started thinking
+1488069649: Philo 1      has started eating
+1488069651: Philo 2      has started sleeping
+1488069651: Philo 4      has started sleeping
+1488069651: Philo 3      has started thinking
+1488069651: Philo 3      has started eating
+1488069651: Philo 1      has taken a fork
+1488069651: Philo 3      has taken a fork
+1488069851: Philo 1      has started sleeping
+1488069851: Philo 4      has started thinking
+1488069851: Philo 4      has started eating
+1488069851: Philo 2      has taken a fork
+1488069851: Philo 4      has taken a fork
+1488069851: Philo 3      has started sleeping
+1488069854: Philo 2      has started thinking
+1488069854: Philo 2      has started eating
+1488070051: Philo 1      has started thinking
+1488070051: Philo 1      has started eating
+1488070051: Philo 4      has started sleeping
+1488070052: Philo 3      has started thinking
+1488070052: Philo 3      has started eating
+1488070055: Philo 2      has started sleeping
+1488070055: Philo 1      has taken a fork
+1488070055: Philo 3      has taken a fork
+1488070253: Philo 4      has started thinking
+1488070253: Philo 4      has started eating
+1488070255: Philo 1      has started sleeping
+1488070255: Philo 3      has started sleeping
+1488070255: Philo 2      has taken a fork
+1488070255: Philo 4      has taken a fork
+1488070258: Philo 2      has started thinking
+1488070258: Philo 2      has started eating
+1488070457: Philo 4      has started sleeping
+1488070457: Philo 3      has started thinking
+1488070457: Philo 3      has started eating
+1488070458: Philo 1      has started thinking
+1488070458: Philo 1      has started eating
+1488070458: Philo 2      has started sleeping
+1488070458: Philo 1      has taken a fork
+1488070458: Philo 3      has taken a fork
+1488070657: Philo 4      has started thinking
+1488070657: Philo 4      has started eating
+1488070657: Philo 3      has started sleeping
+1488070663: Philo 1      has started sleeping
+1488070663: Philo 2      has taken a fork
+1488070663: Philo 4      has taken a fork
+1488070663: Philo 2      has started thinking
+1488070663: Philo 2      has started eating
+1488070860: Philo 4      has started sleeping
+1488070860: Philo 3      has started thinking
+1488070860: Philo 3      has started eating
+1488070865: Philo 1      has started thinking
+1488070865: Philo 1      has started eating
+1488070865: Philo 2      has started sleeping
+1488070865: Philo 1      has taken a fork
+1488070865: Philo 3      has taken a fork
+1488071062: Philo 3      has started sleeping
+1488071062: Philo 4      has started thinking
+1488071062: Philo 4      has started eating
+1488071065: Philo 1      has started sleeping
+1488071065: Philo 2      has started thinking
+1488071065: Philo 2      has started eating
+1488071065: Philo 2      has taken a fork
+1488071065: Philo 4      has taken a fork
+1488071264: Philo 4      has started sleeping
+1488071264: Philo 3      has started thinking
+1488071264: Philo 3      has started eating
+1488071267: Philo 1      has started thinking
+1488071267: Philo 1      has started eating
+1488071267: Philo 2      has started sleeping
+1488071267: Philo 1      has taken a fork
+1488071267: Philo 3      has taken a fork
+1488071468: Philo 4      has started thinking
+1488071468: Philo 4      has started eating
+1488071468: Philo 3      has started sleeping
+1488071468: Philo 1      has started sleeping
+1488071468: Philo 2      has taken a fork
+1488071468: Philo 4      has taken a fork
+1488071468: Philo 2      has started thinking
+1488071468: Philo 2      has started eating
+1488071670: Philo 2      has started sleeping
+1488071672: Philo 3      has started thinking
+1488071672: Philo 3      has started eating
+1488071672: Philo 1      has taken a fork
+1488071672: Philo 3      has taken a fork
+1488071672: Philo 4      has started sleeping
+1488071672: Philo 1      has started thinking
+1488071672: Philo 1      has started eating
+1488071875: Philo 3      has started sleeping
+1488071875: Philo 4      has started thinking
+1488071875: Philo 4      has started eating
+1488071875: Philo 1      has started sleeping
+1488071875: Philo 2      has taken a fork
+1488071875: Philo 4      has taken a fork
+1488071875: Philo 2      has started thinking
+1488071875: Philo 2      has started eating
+1488072075: Philo 2      has started sleeping
+1488072075: Philo 4      has started sleeping
+1488072075: Philo 1      has taken a fork
+1488072075: Philo 3      has taken a fork
+1488072075: Philo 3      has started thinking
+1488072075: Philo 3      has started eating
+1488072075: Philo 1      has started thinking
+1488072076: Philo 1      has started eating
+1488072275: Philo 4      has started thinking
+1488072275: Philo 4      has started eating
+1488072276: Philo 2      has taken a fork
+1488072276: Philo 4      has taken a fork
+1488072277: Philo 2      has started thinking
+1488072277: Philo 2      has started eating
+1488072477: Philo 1      has taken a fork

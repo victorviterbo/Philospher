@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/02/28 18:13:15 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:47:34 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ t_philo	**init_philo(int *args)
 			return (ft_free_array((void **)philo, i), NULL);
 		philo[i]->param = args;
 		philo[i]->id = i;
+		philo[i]->philos = philo;
 		i++;
 	}
-	philo[0]->philos = philo;
 	return (philo);
 }
 
