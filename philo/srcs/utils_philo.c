@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:53:34 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 14:54:07 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:13:52 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void	safe_print(t_philo *philo)
 	else if (philo->state == EATING)
 		printf("%i: Philo %i\t has started eating\n", gettime(philo), philo->id);
 	else if (philo->state == THINKING)
-		printf("%i: Philo %i\t has started thinking\n", gettime(philo), philo->id);
+		printf("%i: Philo %i\t has started thinking\n",
+			gettime(philo), philo->id);
 	else if (philo->state == SLEEPING)
-		printf("%i: Philo %i\t has started sleeping\n", gettime(philo), philo->id);
+		printf("%i: Philo %i\t has started sleeping\n",
+			gettime(philo), philo->id);
 	else if (philo->state == DEAD)
 		printf("%i: Philo %i\t died\n", gettime(philo), philo->id);
 	pthread_mutex_unlock(&philo->shared->print_lock);

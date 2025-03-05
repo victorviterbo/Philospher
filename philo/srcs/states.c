@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 15:11:49 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:30:07 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*life(void *param)
 
 	philo = param;
 	if (philo->id == 1)
-		if (gettime(philo) != 0)
+		if (gettime(philo) != -1)
 			return (NULL);
 	while (gettime(philo) < 0)
 		usleep(100);
@@ -33,7 +33,7 @@ void	*life(void *param)
 	else if (philo->param[NUM_OF_PHILO] % 2
 		&& philo->id == philo->param[NUM_OF_PHILO])
 	{
-		usleep(1000);
+		usleep(500);
 		monitored_sleep(philo, EATING);
 	}
 	if (philo->state == DEAD)
@@ -58,10 +58,11 @@ void	philo_eat(t_philo *philo)
 	while ((philo->shared->forks[philo->id - 1]
 			|| philo->shared->forks[next])
 		&& gettime(philo) <= philo->time_death)
-		usleep(1);
+		usleep(50);
 	if (philo->time_death < gettime(philo))
 	{
 		philo->state = DEAD;
+		printf("philo %i died waiting for a fork at time %i, vs %i\n", philo->id, gettime(philo), philo->time_death);
 		return ;
 	}
 	change_fork(philo, philo->id - 1, philo->id);
@@ -71,7 +72,10 @@ void	philo_eat(t_philo *philo)
 	safe_print(philo);
 	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
 	monitored_sleep(philo, EATING);
+	printf("%i : philo %i is done eating\n", gettime(philo), philo->id);
 	change_fork(philo, philo->id - 1, 0);
+	if (philo->state == DEAD)
+		return ;
 	philo->meals++;
 	if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
 		philo->state = FED;
@@ -87,7 +91,8 @@ void	philo_sleep(t_philo *philo)
 		return ;
 	philo->state = THINKING;
 	safe_print(philo);
-	monitored_sleep(philo, THINKING);
+	if (philo->param[NUM_OF_PHILO] % 2)
+		monitored_sleep(philo, THINKING);
 	if (philo->time_death < gettime(philo))
 		philo->state = DEAD;
 	return ;

@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 13:57:53 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:20:13 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ t_philo	**init_philo(int *args)
 
 void	*init_forks(t_philo **philo)
 {
-	int				i;
-	t_shared		*shared;
+	int			i;
+	t_shared	*shared;
 
 	i = 0;
 	shared = ft_calloc(1, sizeof(t_shared));
