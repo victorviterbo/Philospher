@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 11:10:45 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:17:50 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	*life(void *param)
 		return (NULL);
 	}
 	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
-	while (gettime() < philo->time_death && philo->philos[0]->state != TERMINATE)
+	while (gettime() < philo->time_death
+		&& philo->philos[0]->state != TERMINATE)
 	{
 		philo_eat(philo);
 		if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
@@ -52,7 +53,6 @@ void	distribute_forks(t_philo *philo)
 	int		i;
 	int		next;
 	int		offset;
-	bool	skip;
 
 	i = 0;
 	offset = 0;
@@ -60,31 +60,13 @@ void	distribute_forks(t_philo *philo)
 		return ;
 	while (philo->state != TERMINATE)
 	{
-		skip = false;
 		next = (i + offset + 1) % philo->param[NUM_OF_PHILO];
 		while (philo->shared->forks[i + offset] || philo->shared->forks[next])
 		{
 			usleep(1);
 		}
-		while (philo->philos[i + offset + 1]->state != THINKING)
-		{
-			if (philo->philos[i + offset + 1]->state == DEAD)
-				return ;
-			if (philo->philos[i + offset + 1]->state == FED)
-			{
-				skip = true;
-				break ;
-			}
-			if (philo->state == TERMINATE)
-				return ;
-			usleep(1);
-		}
-		if (skip == false)
-		{
-			change_fork(philo, i + offset, i + offset + 1);
-			philo->philos[i + offset + 1]->has_forks = true;
-			safe_print(philo->philos[i + offset + 1], gettime(), HAS_FORK);
-		}
+		change_fork(philo, i + offset, i + offset + 1);
+		philo->philos[i + offset + 1]->has_forks = true;
 		i = (i + 2) % philo->param[NUM_OF_PHILO];
 		if (i == 0)
 			offset = (philo->param[NUM_OF_PHILO] % 2 == 0) * (offset == 0);
@@ -107,12 +89,13 @@ void	philo_eat(t_philo *philo)
 		safe_print(philo, gettime(), DEAD);
 		return ;
 	}
+	safe_print(philo, gettime(), HAS_FORK);
 	pthread_mutex_lock(&philo->state_lock);
 	philo->state = EATING;
 	pthread_mutex_unlock(&philo->state_lock);
 	safe_print(philo, gettime(), EATING);
 	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
-	usleep(1000 * philo->param[TIME_TO_EAT]);
+	monitored_sleep(philo);
 	change_fork(philo, philo->id - 1, 0);
 	philo->meals++;
 	return ;
@@ -124,7 +107,7 @@ void	philo_sleep(t_philo *philo)
 	philo->state = SLEEPING;
 	pthread_mutex_unlock(&philo->state_lock);
 	safe_print(philo, gettime(), SLEEPING);
-	usleep(1000 * philo->param[TIME_TO_SLEEP]);
+	monitored_sleep(philo);
 	pthread_mutex_lock(&philo->state_lock);
 	philo->state = THINKING;
 	pthread_mutex_unlock(&philo->state_lock);

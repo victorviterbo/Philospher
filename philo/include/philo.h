@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/02 11:35:40 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:17:42 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
 int		checkphilo(t_philo **philo);
-int		gettime(void);
 void	safe_print(t_philo *philo, int time, t_philostate state);
 void	philo_finish(t_philo **philo, pthread_t *threads);
 void	change_fork(t_philo *philo, int i, int newval);
+
+int		gettime(void);
+int		monitored_sleep(t_philo *philo);
 
 #endif

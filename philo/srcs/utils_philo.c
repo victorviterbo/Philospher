@@ -6,14 +6,13 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:53:34 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/02 11:36:20 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 11:20:12 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 int		checkphilo(t_philo **philo);
-int		gettime(void);
 void	safe_print(t_philo *philo, int time, t_philostate state);
 void	philo_finish(t_philo **philo, pthread_t *threads);
 void	change_fork(t_philo *philo, int i, int newval);
@@ -36,47 +35,20 @@ int	checkphilo(t_philo **philo)
 	return (all_fed * FED);
 }
 
-int	gettime(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) != 0)
-		return (-1);
-	return ((int)(tv.tv_sec * 1000 + tv.tv_usec / 1000));
-}
-
 void	safe_print(t_philo *philo, int time, t_philostate state)
 {
+	pthread_mutex_lock(&philo->shared->print_lock);
 	if (state == HAS_FORK)
-	{
-		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has taken a fork\n", time, philo->id);
-		pthread_mutex_unlock(&philo->shared->print_lock);
-	}
 	else if (state == EATING)
-	{
-		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has started eating\n", time, philo->id);
-		pthread_mutex_unlock(&philo->shared->print_lock);
-	}
 	else if (state == THINKING)
-	{
-		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has started thinking\n", time, philo->id);
-		pthread_mutex_unlock(&philo->shared->print_lock);
-	}
 	else if (state == SLEEPING)
-	{
-		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t has started sleeping\n", time, philo->id);
-		pthread_mutex_unlock(&philo->shared->print_lock);
-	}
 	else if (state == DEAD)
-	{
-		pthread_mutex_lock(&philo->shared->print_lock);
 		printf("%i: Philo %i\t died\n", time, philo->id);
-		pthread_mutex_unlock(&philo->shared->print_lock);
-	}
+	pthread_mutex_unlock(&philo->shared->print_lock);
 	return ;
 }
 
