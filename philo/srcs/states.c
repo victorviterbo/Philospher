@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 16:30:07 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:53:47 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	philo_eat(t_philo *philo)
 	if (philo->time_death < gettime(philo))
 	{
 		philo->state = DEAD;
-		printf("philo %i died waiting for a fork at time %i, vs %i\n", philo->id, gettime(philo), philo->time_death);
 		return ;
 	}
 	change_fork(philo, philo->id - 1, philo->id);
@@ -72,7 +71,6 @@ void	philo_eat(t_philo *philo)
 	safe_print(philo);
 	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
 	monitored_sleep(philo, EATING);
-	printf("%i : philo %i is done eating\n", gettime(philo), philo->id);
 	change_fork(philo, philo->id - 1, 0);
 	if (philo->state == DEAD)
 		return ;
