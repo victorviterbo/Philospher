@@ -6,49 +6,58 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:19:47 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 12:17:23 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:06:40 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	gettime(void);
-int	monitored_sleep(t_philo *philo);
+int	gettime(t_philo *philo);
+int	monitored_sleep(t_philo *philo, t_philostate state);
 
-int	gettime(void)
+int	gettime(t_philo *philo)
 {
 	struct timeval	tv;
+	int				time;
 
 	if (gettimeofday(&tv, NULL) != 0)
 		return (-1);
-	return ((int)(tv.tv_sec * 1000 + tv.tv_usec / 1000));
+	if (philo->shared->start_time == 0)
+	{
+		philo->shared->start_time = (int)(tv.tv_sec * 1000 + tv.tv_usec / 1000);
+		philo->shared->start_time += 2000;
+		return (-1);
+	}
+	time = (int)(tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return (time - philo->shared->start_time);
 }
 
-int	monitored_sleep(t_philo *philo)
+int	monitored_sleep(t_philo *philo, t_philostate state)
 {
-	if (philo->state == EATING)
+	if (philo->terminate)
+		return (-1);
+	if (state == EATING)
 	{
-		if (gettime() + philo->param[TIME_TO_EAT] < philo->time_death)
+		if (gettime(philo) + philo->param[TIME_TO_EAT] < philo->time_death)
 			return (usleep(1000 * philo->param[TIME_TO_EAT]));
 		else
 		{
-			pthread_mutex_lock(&philo->state_lock);
 			philo->state = DEAD;
-			pthread_mutex_unlock(&philo->state_lock);
-			return (usleep(1000 * philo->param[TIME_TO_EAT]));
+			return (usleep(philo->time_death - gettime(philo)));
 		}
 	}
-	if (philo->state == SLEEPING)
+	else if (state == SLEEPING)
 	{
-		if (gettime() + philo->param[TIME_TO_SLEEP] < philo->time_death)
+		if (gettime(philo) + philo->param[TIME_TO_SLEEP] < philo->time_death)
 			return (usleep(1000 * philo->param[TIME_TO_SLEEP]));
 		else
 		{
-			pthread_mutex_lock(&philo->state_lock);
 			philo->state = DEAD;
-			pthread_mutex_unlock(&philo->state_lock);
-			return (usleep(1000 * philo->param[TIME_TO_SLEEP]));
+			return (usleep(philo->time_death - gettime(philo)));
 		}
 	}
+	else if (state == THINKING && philo->time_death - gettime(philo) - 5000 > 0
+		&& philo->param[NUM_OF_PHILO] % 2)
+		return (usleep(1000 * (philo->time_death - gettime(philo)) - 5000));
 	return (1);
 }

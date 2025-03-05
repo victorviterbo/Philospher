@@ -6,7 +6,7 @@
 #    By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/22 20:24:47 by vviterbo          #+#    #+#              #
-#    Updated: 2025/03/05 12:15:58 by vviterbo         ###   ########.fr        #
+#    Updated: 2025/03/05 14:55:35 by vviterbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ $(OBJS): $(SRCS)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): folders $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) $(INCLUDE) -o $(BIN)$(NAME)
+	@$(CC) $(CFLAGS) $(SRCS) $(INCLUDE) -o $(BIN)$(NAME)
 	@echo "philo compiled successfully"
 
 .PHONY: all clean fclean re

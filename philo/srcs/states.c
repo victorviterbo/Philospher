@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 12:17:50 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:11:49 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,95 +22,73 @@ void	*life(void *param)
 	t_philo	*philo;
 
 	philo = param;
-	if (philo->id == 0)
+	if (philo->id == 1)
+		if (gettime(philo) != 0)
+			return (NULL);
+	while (gettime(philo) < 0)
+		usleep(100);
+	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
+	if (philo->id % 2 == 0)
+		usleep(500);
+	else if (philo->param[NUM_OF_PHILO] % 2
+		&& philo->id == philo->param[NUM_OF_PHILO])
 	{
-		distribute_forks(philo);
-		return (NULL);
+		usleep(1000);
+		monitored_sleep(philo, EATING);
 	}
-	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
-	while (gettime() < philo->time_death
-		&& philo->philos[0]->state != TERMINATE)
+	if (philo->state == DEAD)
+		return (NULL);
+	while (philo->state != FED && philo->state != DEAD && !philo->terminate)
 	{
 		philo_eat(philo);
-		if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
-		{
-			philo->state = FED;
-			return (NULL);
-		}
-		if (philo->state == DEAD)
-			return (NULL);
+		if (philo->state == FED || philo->state == DEAD || philo->terminate)
+			break ;
 		philo_sleep(philo);
 	}
-	if (philo->philos[0]->state != TERMINATE)
-		return (NULL);
-	philo->state = DEAD;
-	safe_print(philo, gettime(), DEAD);
+	if (philo->state == DEAD)
+		safe_print(philo);
 	return (NULL);
-}
-
-void	distribute_forks(t_philo *philo)
-{
-	int		i;
-	int		next;
-	int		offset;
-
-	i = 0;
-	offset = 0;
-	if (philo->param[NUM_OF_PHILO] < 2)
-		return ;
-	while (philo->state != TERMINATE)
-	{
-		next = (i + offset + 1) % philo->param[NUM_OF_PHILO];
-		while (philo->shared->forks[i + offset] || philo->shared->forks[next])
-		{
-			usleep(1);
-		}
-		change_fork(philo, i + offset, i + offset + 1);
-		philo->philos[i + offset + 1]->has_forks = true;
-		i = (i + 2) % philo->param[NUM_OF_PHILO];
-		if (i == 0)
-			offset = (philo->param[NUM_OF_PHILO] % 2 == 0) * (offset == 0);
-	}
 }
 
 void	philo_eat(t_philo *philo)
 {
-	while (!philo->has_forks && gettime() <= philo->time_death)
-	{
+	int	next;
+
+	next = philo->id % (philo->param[NUM_OF_PHILO]);
+	while ((philo->shared->forks[philo->id - 1]
+			|| philo->shared->forks[next])
+		&& gettime(philo) <= philo->time_death)
 		usleep(1);
-	}
-	if (gettime() > philo->time_death)
+	if (philo->time_death < gettime(philo))
 	{
-		if (philo->has_forks)
-			change_fork(philo, philo->id - 1, 0);
-		pthread_mutex_lock(&philo->state_lock);
 		philo->state = DEAD;
-		pthread_mutex_unlock(&philo->state_lock);
-		safe_print(philo, gettime(), DEAD);
 		return ;
 	}
-	safe_print(philo, gettime(), HAS_FORK);
-	pthread_mutex_lock(&philo->state_lock);
+	change_fork(philo, philo->id - 1, philo->id);
+	philo->state = HAS_FORK;
+	safe_print(philo);
 	philo->state = EATING;
-	pthread_mutex_unlock(&philo->state_lock);
-	safe_print(philo, gettime(), EATING);
-	philo->time_death = gettime() + philo->param[TIME_TO_DIE];
-	monitored_sleep(philo);
+	safe_print(philo);
+	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
+	monitored_sleep(philo, EATING);
 	change_fork(philo, philo->id - 1, 0);
 	philo->meals++;
+	if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
+		philo->state = FED;
 	return ;
 }
 
 void	philo_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->state_lock);
 	philo->state = SLEEPING;
-	pthread_mutex_unlock(&philo->state_lock);
-	safe_print(philo, gettime(), SLEEPING);
-	monitored_sleep(philo);
-	pthread_mutex_lock(&philo->state_lock);
+	safe_print(philo);
+	monitored_sleep(philo, SLEEPING);
+	if (philo->state == DEAD)
+		return ;
 	philo->state = THINKING;
-	pthread_mutex_unlock(&philo->state_lock);
-	safe_print(philo, gettime(), THINKING);
+	safe_print(philo);
+	monitored_sleep(philo, THINKING);
+	if (philo->time_death < gettime(philo))
+		philo->state = DEAD;
 	return ;
 }

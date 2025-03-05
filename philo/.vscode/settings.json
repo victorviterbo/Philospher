@@ -2,6 +2,7 @@
 	"files.associations": {
 		"locale": "c",
 		"string": "c",
-		"random": "c"
+		"random": "c",
+		"__locale": "c"
 	}
 }

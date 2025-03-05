@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/03 15:47:34 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:57:53 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ int	spawn_threads(t_philo **philo)
 	pthread_t		*threads;
 	int				i;
 
-	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO] + 1, sizeof(pthread_t));
+	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(pthread_t));
 	if (!threads)
 	{
 		printf("ERROR: memory alloc failed, exiting...\n");
 		return (EXIT_FAILURE);
 	}
 	i = 0;
-	while (i < philo[0]->param[NUM_OF_PHILO] + 1)
+	while (i < philo[0]->param[NUM_OF_PHILO])
 	{
 		if (pthread_create(&threads[i], NULL, &life, (void *)philo[i]) != 0)
 		{
@@ -93,17 +93,16 @@ t_philo	**init_philo(int *args)
 	t_philo	**philo;
 
 	i = 0;
-	philo = ft_calloc(args[NUM_OF_PHILO] + 1, sizeof(t_philo *));
+	philo = ft_calloc(args[NUM_OF_PHILO], sizeof(t_philo *));
 	if (!philo)
 		return (NULL);
-	while (i < args[NUM_OF_PHILO] + 1)
+	while (i < args[NUM_OF_PHILO])
 	{
 		philo[i] = ft_calloc(1, sizeof(t_philo));
 		if (!philo[i])
 			return (ft_free_array((void **)philo, i), NULL);
 		philo[i]->param = args;
-		philo[i]->id = i;
-		philo[i]->philos = philo;
+		philo[i]->id = i + 1;
 		i++;
 	}
 	return (philo);
@@ -125,12 +124,10 @@ void	*init_forks(t_philo **philo)
 	pthread_mutex_init(&shared->print_lock, NULL);
 	shared->lock = ft_calloc(philo[0]->param[NUM_OF_PHILO],
 			sizeof(pthread_mutex_t));
-	while (i < philo[0]->param[NUM_OF_PHILO] + 1)
+	while (i < philo[0]->param[NUM_OF_PHILO])
 	{
 		philo[i]->shared = shared;
-		pthread_mutex_init(&philo[i]->state_lock, NULL);
-		if (i < philo[0]->param[NUM_OF_PHILO])
-			pthread_mutex_init(&shared->lock[i], NULL);
+		pthread_mutex_init(&shared->lock[i], NULL);
 		i++;
 	}
 	return (NULL);
