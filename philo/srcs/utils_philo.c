@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:53:34 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 09:59:24 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:11:41 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	checkphilo(t_philo **philo)
 	all_fed = true;
 	while (i < philo[0]->param[NUM_OF_PHILO])
 	{
-		if (philo[i]->state == DEAD)
+		if (philo[i]->state == DEAD || philo[i]->time_death < gettime(philo[0]))
 			return (DEAD);
 		else if (philo[i]->state != FED)
 			all_fed = false;

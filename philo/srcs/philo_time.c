@@ -6,14 +6,15 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:19:47 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 09:54:13 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:12:15 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	gettime(t_philo *philo);
-int	monitored_sleep(t_philo *philo, t_philostate state);
+int		gettime(t_philo *philo);
+int		monitored_sleep(t_philo *philo, t_philostate state);
+void	philo_start(t_philo *philo);
 
 int	gettime(t_philo *philo)
 {
@@ -61,4 +62,22 @@ int	monitored_sleep(t_philo *philo, t_philostate state)
 	else if (state == THINKING)
 		return (usleep(1000 * (1 + 2 * philo->param[TIME_TO_EAT] - philo->param[TIME_TO_SLEEP])));
 	return (1);
+}
+
+void	philo_start(t_philo *philo)
+{
+	if (philo->id == 1)
+		if (gettime(philo) != -1)
+			return ;
+	while (gettime(philo) < 0)
+		usleep(100);
+	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
+	if (philo->id % 2 == 0)
+		usleep(500);
+	else if (philo->param[NUM_OF_PHILO] % 2
+		&& philo->id == philo->param[NUM_OF_PHILO])
+	{
+		usleep(500);
+		monitored_sleep(philo, EATING);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 10:00:47 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:06:10 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,7 @@ void	*life(void *param)
 	t_philo	*philo;
 
 	philo = param;
-	if (philo->id == 1)
-		if (gettime(philo) != -1)
-			return (NULL);
-	while (gettime(philo) < 0)
-		usleep(100);
-	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
-	if (philo->id % 2 == 0)
-		usleep(500);
-	else if (philo->param[NUM_OF_PHILO] % 2
-		&& philo->id == philo->param[NUM_OF_PHILO])
-	{
-		usleep(500);
-		monitored_sleep(philo, EATING);
-	}
+	philo_start(philo);
 	if (philo->state == DEAD)
 		return (NULL);
 	while (philo->state != FED && philo->state != DEAD && !philo->terminate)
@@ -59,11 +46,8 @@ void	philo_eat(t_philo *philo)
 			|| philo->shared->forks[next])
 		&& gettime(philo) <= philo->time_death)
 		usleep(50);
-	if (philo->time_death < gettime(philo))
-	{
-		philo->state = DEAD;
+	if (philo->terminate)
 		return ;
-	}
 	change_fork(philo, philo->id - 1, philo->id);
 	philo->state = HAS_FORK;
 	safe_print(philo);
