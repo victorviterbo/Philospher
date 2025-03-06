@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:19:47 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 15:51:40 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 09:54:13 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	monitored_sleep(t_philo *philo, t_philostate state)
 			return (usleep(philo->time_death - gettime(philo)));
 		}
 	}
-	else if (state == SLEEPING)	
+	else if (state == SLEEPING)
 	{
 		if (gettime(philo) + philo->param[TIME_TO_SLEEP] < philo->time_death)
 			return (usleep(1000 * philo->param[TIME_TO_SLEEP]));

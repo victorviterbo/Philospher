@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 13:43:23 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 09:59:41 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	philo_sleep(t_philo *philo);
 int		checkphilo(t_philo **philo);
 void	safe_print(t_philo *philo);
 void	philo_finish(t_philo **philo, pthread_t *threads);
+void	free_n_destroy(t_philo **philo, int num_of_philo);
 void	change_fork(t_philo *philo, int i, int newval);
 
 int		gettime(t_philo *philo);
