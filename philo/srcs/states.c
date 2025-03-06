@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 10:06:10 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:17:56 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	philo_eat(t_philo *philo)
 	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
 	monitored_sleep(philo, EATING);
 	change_fork(philo, philo->id - 1, 0);
-	if (philo->state == DEAD)
+	if (philo->state == DEAD || philo->terminate)
 		return ;
 	philo->meals++;
 	if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
@@ -69,13 +69,11 @@ void	philo_sleep(t_philo *philo)
 	philo->state = SLEEPING;
 	safe_print(philo);
 	monitored_sleep(philo, SLEEPING);
-	if (philo->state == DEAD)
+	if (philo->state == DEAD || philo->terminate)
 		return ;
 	philo->state = THINKING;
 	safe_print(philo);
 	if (philo->param[NUM_OF_PHILO] % 2)
 		monitored_sleep(philo, THINKING);
-	if (philo->time_death < gettime(philo))
-		philo->state = DEAD;
 	return ;
 }
