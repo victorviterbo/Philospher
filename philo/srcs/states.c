@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 10:17:56 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:30:39 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	*life(void *param)
 	philo = param;
 	philo_start(philo);
 	if (philo->state == DEAD)
+	{
+		safe_print(philo);
 		return (NULL);
+	}
 	while (philo->state != FED && philo->state != DEAD && !philo->terminate)
 	{
 		philo_eat(philo);
@@ -46,8 +49,11 @@ void	philo_eat(t_philo *philo)
 			|| philo->shared->forks[next])
 		&& gettime(philo) <= philo->time_death)
 		usleep(50);
-	if (philo->terminate)
+	if (philo->terminate || philo->time_death < gettime(philo))
+	{
+		philo->state = DEAD;
 		return ;
+	}
 	change_fork(philo, philo->id - 1, philo->id);
 	philo->state = HAS_FORK;
 	safe_print(philo);
