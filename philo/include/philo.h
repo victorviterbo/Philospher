@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 10:03:31 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:26:10 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				state;
-	int				time_death;
-	bool			terminate;
+	long			time_death;
 	struct s_shared	*shared;
 	int				*param;
 	int				meals;
@@ -57,7 +56,10 @@ typedef struct s_shared
 	int				*forks;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	print_lock;
-	int				start_time;
+	long			start_time;
+	pthread_mutex_t	start_time_lock;
+	bool			terminate;
+	pthread_mutex_t	terminate_lock;
 }	t_shared;
 
 int		ft_atoi(const char *str);
@@ -83,13 +85,17 @@ void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
 int		checkphilo(t_philo **philo);
-void	safe_print(t_philo *philo);
 void	philo_finish(t_philo **philo, pthread_t *threads);
 void	free_n_destroy(t_philo **philo, int num_of_philo);
-void	change_fork(t_philo *philo, int i, int newval);
 
 int		gettime(t_philo *philo);
+int		init_clock(t_philo *philo);
 int		monitored_sleep(t_philo *philo, t_philostate state);
 void	philo_start(t_philo *philo);
 
+void	safe_print(t_philo *philo);
+void	change_fork(t_philo *philo, int i, int newval);
+bool	get_terminate_status(t_philo *philo);
+void	set_terminate_status(t_philo *philo, bool new_value);
+bool	forks_avail(t_philo *philo);
 #endif

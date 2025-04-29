@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/05 16:20:13 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:31:03 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,13 @@ void	*init_forks(t_philo **philo)
 	shared->forks = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(int));
 	if (!shared->forks)
 		return (free(shared), free(philo), NULL);
+	shared->terminate = false;
 	i = 0;
+	pthread_mutex_init(&shared->terminate_lock, NULL);
 	pthread_mutex_init(&shared->print_lock, NULL);
 	shared->lock = ft_calloc(philo[0]->param[NUM_OF_PHILO],
 			sizeof(pthread_mutex_t));
+	shared->start_time = 0;
 	while (i < philo[0]->param[NUM_OF_PHILO])
 	{
 		philo[i]->shared = shared;

@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/03/06 10:30:39 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:47:06 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	*life(void *param)
 		safe_print(philo);
 		return (NULL);
 	}
-	while (philo->state != FED && philo->state != DEAD && !philo->terminate)
+	while (philo->state != FED && philo->state != DEAD && !get_terminate_status(philo))
 	{
 		philo_eat(philo);
-		if (philo->state == FED || philo->state == DEAD || philo->terminate)
+		if (philo->state == FED || philo->state == DEAD || get_terminate_status(philo))
 			break ;
 		philo_sleep(philo);
 	}
@@ -45,11 +45,15 @@ void	philo_eat(t_philo *philo)
 	int	next;
 
 	next = philo->id % (philo->param[NUM_OF_PHILO]);
-	while ((philo->shared->forks[philo->id - 1]
-			|| philo->shared->forks[next])
-		&& gettime(philo) <= philo->time_death)
+	if (next == philo->id - 1)
+	{
+		usleep(1000 * (philo->time_death - gettime(philo)));
+		philo->state = DEAD;
+		return ;
+	}
+	while (!forks_avail(philo) && gettime(philo) <= philo->time_death)
 		usleep(50);
-	if (philo->terminate || philo->time_death < gettime(philo))
+	if (get_terminate_status(philo) || philo->time_death < gettime(philo))
 	{
 		philo->state = DEAD;
 		return ;
@@ -62,7 +66,7 @@ void	philo_eat(t_philo *philo)
 	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
 	monitored_sleep(philo, EATING);
 	change_fork(philo, philo->id - 1, 0);
-	if (philo->state == DEAD || philo->terminate)
+	if (philo->state == DEAD || get_terminate_status(philo))
 		return ;
 	philo->meals++;
 	if (philo->param[NUM_MEALS] && philo->meals == philo->param[NUM_MEALS])
@@ -75,7 +79,7 @@ void	philo_sleep(t_philo *philo)
 	philo->state = SLEEPING;
 	safe_print(philo);
 	monitored_sleep(philo, SLEEPING);
-	if (philo->state == DEAD || philo->terminate)
+	if (philo->state == DEAD || get_terminate_status(philo))
 		return ;
 	philo->state = THINKING;
 	safe_print(philo);
