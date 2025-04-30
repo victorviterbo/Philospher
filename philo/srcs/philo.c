@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:31:03 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:01:52 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	spawn_threads(t_philo **philo)
 	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(pthread_t));
 	if (!threads)
 	{
-		printf("ERROR: memory alloc failed, exiting...\n");
+		safe_print(NULL, "ERROR: memory alloc failed, exiting...\n");
 		return (EXIT_FAILURE);
 	}
 	i = 0;
@@ -78,7 +78,8 @@ int	spawn_threads(t_philo **philo)
 	{
 		if (pthread_create(&threads[i], NULL, &life, (void *)philo[i]) != 0)
 		{
-			printf("ERROR: could not create thread %i\n", i);
+			safe_print(NULL, "ERROR: could not create thread...\n");
+			join_free_destroy(philo, threads, i);
 			return (EXIT_FAILURE);
 		}
 		i++;

@@ -6,14 +6,14 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:51:54 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:47:06 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:58:35 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	*life(void *param);
-void	distribute_forks(t_philo *philo);
+void	philo_get_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
@@ -25,22 +25,22 @@ void	*life(void *param)
 	philo_start(philo);
 	if (philo->state == DEAD)
 	{
-		safe_print(philo);
+		safe_print(philo, NULL);
 		return (NULL);
 	}
-	while (philo->state != FED && philo->state != DEAD && !get_terminate_status(philo))
+	while (philo->state != FED && philo->state != DEAD
+		&& !get_terminate_status(philo))
 	{
 		philo_eat(philo);
-		if (philo->state == FED || philo->state == DEAD || get_terminate_status(philo))
+		if (philo->state == FED || philo->state == DEAD
+			|| get_terminate_status(philo))
 			break ;
 		philo_sleep(philo);
 	}
-	if (philo->state == DEAD)
-		safe_print(philo);
 	return (NULL);
 }
 
-void	philo_eat(t_philo *philo)
+void	philo_get_forks(t_philo *philo)
 {
 	int	next;
 
@@ -60,9 +60,16 @@ void	philo_eat(t_philo *philo)
 	}
 	change_fork(philo, philo->id - 1, philo->id);
 	philo->state = HAS_FORK;
-	safe_print(philo);
+	safe_print(philo, NULL);
+}
+
+void	philo_eat(t_philo *philo)
+{
+	philo_get_forks(philo);
+	if (philo->state == DEAD || get_terminate_status(philo))
+		return ;
 	philo->state = EATING;
-	safe_print(philo);
+	safe_print(philo, NULL);
 	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
 	monitored_sleep(philo, EATING);
 	change_fork(philo, philo->id - 1, 0);
@@ -77,12 +84,12 @@ void	philo_eat(t_philo *philo)
 void	philo_sleep(t_philo *philo)
 {
 	philo->state = SLEEPING;
-	safe_print(philo);
+	safe_print(philo, NULL);
 	monitored_sleep(philo, SLEEPING);
 	if (philo->state == DEAD || get_terminate_status(philo))
 		return ;
 	philo->state = THINKING;
-	safe_print(philo);
+	safe_print(philo, NULL);
 	if (philo->param[NUM_OF_PHILO] % 2)
 		monitored_sleep(philo, THINKING);
 	return ;

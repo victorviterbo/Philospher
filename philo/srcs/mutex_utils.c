@@ -6,32 +6,38 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:05:30 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:34:23 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:58:51 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	safe_print(t_philo *philo);
+void	safe_print(t_philo *philo, char *message);
 void	change_fork(t_philo *philo, int i, int newval);
 bool	get_terminate_status(t_philo *philo);
 void	set_terminate_status(t_philo *philo, bool new_value);
 bool	forks_avail(t_philo *philo);
 
-void	safe_print(t_philo *philo)
+void	safe_print(t_philo *philo, char *message)
 {
+	if (message)
+	{
+		pthread_mutex_lock(&philo->shared->print_lock);
+		printf("%s", message);
+		pthread_mutex_unlock(&philo->shared->print_lock);
+	}
 	if (get_terminate_status(philo))
 		return ;
 	pthread_mutex_lock(&philo->shared->print_lock);
 	if (philo->state == HAS_FORK)
-		printf("%i: Philo %i\t has taken a fork\n", gettime(philo), philo->id);
+		printf("%i:\tPhilo %i\thas taken a fork\n", gettime(philo), philo->id);
 	else if (philo->state == EATING)
-		printf("%i: Philo %i\t has started eating\n", gettime(philo), philo->id);
+		printf("%i:\tPhilo %i\thas started eating\n", gettime(philo), philo->id);
 	else if (philo->state == THINKING)
-		printf("%i: Philo %i\t has started thinking\n",
+		printf("%i:\tPhilo %i\thas started thinking\n",
 			gettime(philo), philo->id);
 	else if (philo->state == SLEEPING)
-		printf("%i: Philo %i\t has started sleeping\n",
+		printf("%i:\tPhilo %i\thas started sleeping\n",
 			gettime(philo), philo->id);
 	pthread_mutex_unlock(&philo->shared->print_lock);
 	return ;

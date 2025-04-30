@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:26:10 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:57:55 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,22 @@ int		spawn_threads(t_philo **philo);
 t_philo	**init_philo(int *args);
 
 void	*life(void *param);
-void	distribute_forks(t_philo *philo);
+void	philo_get_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
 int		checkphilo(t_philo **philo);
 void	philo_finish(t_philo **philo, pthread_t *threads);
-void	free_n_destroy(t_philo **philo, int num_of_philo);
+void	join_free_destroy(t_philo **philo, pthread_t *threads,
+			int num_of_philo);
+void	change_fork(t_philo *philo, int i, int newval);
 
 int		gettime(t_philo *philo);
 int		init_clock(t_philo *philo);
 int		monitored_sleep(t_philo *philo, t_philostate state);
 void	philo_start(t_philo *philo);
 
-void	safe_print(t_philo *philo);
+void	safe_print(t_philo *philo, char *message);
 void	change_fork(t_philo *philo, int i, int newval);
 bool	get_terminate_status(t_philo *philo);
 void	set_terminate_status(t_philo *philo, bool new_value);

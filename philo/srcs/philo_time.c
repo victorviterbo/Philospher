@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:19:47 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:42:04 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:52:38 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	init_clock(t_philo *philo)
 	else if (philo->id != 1)
 		return (0);
 	philo->shared->start_time = (long)(tv.tv_sec * 1000 + tv.tv_usec / 1000);
-	philo->shared->start_time += 2000;
+	philo->shared->start_time += 1000;
 	return (0);
 }
 
@@ -55,8 +55,8 @@ int	monitored_sleep(t_philo *philo, t_philostate state)
 			return (usleep(1000 * philo->param[TIME_TO_EAT]));
 		else if (philo->time_death - gettime(philo) > 0)
 		{
-			philo->state = DEAD;
-			return (usleep(philo->time_death - gettime(philo)));
+			usleep(1000 * (philo->time_death - gettime(philo)));
+			return (philo->state = DEAD);
 		}
 	}
 	else if (state == SLEEPING)
@@ -65,8 +65,8 @@ int	monitored_sleep(t_philo *philo, t_philostate state)
 			return (usleep(1000 * philo->param[TIME_TO_SLEEP]));
 		else if (philo->time_death - gettime(philo) > 0)
 		{
-			philo->state = DEAD;
-			return (usleep(philo->time_death - gettime(philo)));
+			usleep(1000 * (philo->time_death - gettime(philo)));
+			return (philo->state = DEAD);
 		}
 	}
 	else if (state == THINKING)
@@ -81,7 +81,7 @@ void	philo_start(t_philo *philo)
 		usleep(100);
 	philo->time_death = gettime(philo) + philo->param[TIME_TO_DIE];
 	if (philo->id % 2 == 0)
-		usleep(500);
+		usleep(1000);
 	else if (philo->param[NUM_OF_PHILO] % 2
 		&& philo->id == philo->param[NUM_OF_PHILO]
 		&& philo->param[NUM_OF_PHILO] > 1)
