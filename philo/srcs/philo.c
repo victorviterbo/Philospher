@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:02 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/04/30 14:01:52 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:05:42 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	*parse_args(int argc, char *argv[])
 	if (!args)
 	{
 		write(2, "ERROR: memory allocation failed, exiting...\n", 45);
-		return (NULL);
+		return (free(args), NULL);
 	}
 	argc = 1;
 	while (argv[argc])
@@ -54,7 +54,7 @@ int	*parse_args(int argc, char *argv[])
 		if (!ft_isint(argv[argc]) || ft_atoi(argv[argc]) <= 0)
 		{
 			write(2, "ERROR: Wrong argument, exiting...\n", 35);
-			return (NULL);
+			return (free(args), NULL);
 		}
 		args[argc - 1] = ft_atoi(argv[argc]);
 		argc++;
@@ -70,7 +70,7 @@ int	spawn_threads(t_philo **philo)
 	threads = ft_calloc(philo[0]->param[NUM_OF_PHILO], sizeof(pthread_t));
 	if (!threads)
 	{
-		safe_print(NULL, "ERROR: memory alloc failed, exiting...\n");
+		printf("ERROR: memory alloc failed, exiting...\n");
 		return (EXIT_FAILURE);
 	}
 	i = 0;
@@ -78,7 +78,7 @@ int	spawn_threads(t_philo **philo)
 	{
 		if (pthread_create(&threads[i], NULL, &life, (void *)philo[i]) != 0)
 		{
-			safe_print(NULL, "ERROR: could not create thread...\n");
+			safe_print(philo[0], "ERROR: could not create thread...\n");
 			join_free_destroy(philo, threads, i);
 			return (EXIT_FAILURE);
 		}
@@ -122,16 +122,19 @@ void	*init_forks(t_philo **philo)
 	if (!shared->forks)
 		return (free(shared), free(philo), NULL);
 	shared->terminate = false;
-	i = 0;
 	pthread_mutex_init(&shared->terminate_lock, NULL);
 	pthread_mutex_init(&shared->print_lock, NULL);
+	pthread_mutex_init(&shared->start_time_lock, NULL);
 	shared->lock = ft_calloc(philo[0]->param[NUM_OF_PHILO],
 			sizeof(pthread_mutex_t));
 	shared->start_time = 0;
+	i = 0;
 	while (i < philo[0]->param[NUM_OF_PHILO])
 	{
 		philo[i]->shared = shared;
 		pthread_mutex_init(&shared->lock[i], NULL);
+		pthread_mutex_init(&philo[i]->state_lock, NULL);
+		pthread_mutex_init(&philo[i]->time_death_lock, NULL);
 		i++;
 	}
 	return (NULL);

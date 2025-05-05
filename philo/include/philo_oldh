@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:36:18 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/05/05 17:42:40 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:37:21 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				state;
-	pthread_mutex_t	state_lock;
 	long			time_death;
-	pthread_mutex_t	time_death_lock;
 	struct s_shared	*shared;
 	int				*param;
 	int				meals;
@@ -76,44 +74,32 @@ char	*ft_strchr(const char *s, int c);
 void	ft_free_array(void **array, int size);
 size_t	ft_arrlen(char **array);
 
-//philo
 int		*parse_args(int argc, char *argv[]);
 int		spawn_threads(t_philo **philo);
 t_philo	**init_philo(int *args);
 
-//start_simu
-void	philo_start(t_philo *philo);
-int		init_clock(t_philo *philo);
-
-//run_simu
 void	*life(void *param);
 void	philo_get_forks(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
-//end_simu
 int		checkphilo(t_philo **philo);
 void	philo_finish(t_philo **philo, pthread_t *threads);
 void	join_free_destroy(t_philo **philo, pthread_t *threads,
 			int num_of_philo);
-void	free_philos(t_philo **philo, pthread_t *threads, int num_of_philo);
+void	change_fork(t_philo *philo, int i, int newval);
 
-//time_utils
 int		gettime(t_philo *philo);
-void	set_start_time(t_philo *philo, long start_time);
-long	get_start_time(t_philo *philo);
+int		init_clock(t_philo *philo);
 int		monitored_sleep(t_philo *philo, t_philostate state);
-//state_utils
-int		set_state(t_philo *philo, int state);
-int		get_state(t_philo *philo);
-long	get_tod(t_philo *philo);
-void	reset_tod(t_philo *philo);
+void	philo_start(t_philo *philo);
 
-//mutex_utils
 void	safe_print(t_philo *philo, char *message);
-bool	forks_avail(t_philo *philo);
 void	change_fork(t_philo *philo, int i, int newval);
 bool	get_terminate_status(t_philo *philo);
 void	set_terminate_status(t_philo *philo, bool new_value);
+bool	forks_avail(t_philo *philo);
+void	set_start_time(t_philo *philo, long start_time);
+long	get_start_time(t_philo *philo);
 
 #endif
