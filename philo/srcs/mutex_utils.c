@@ -6,7 +6,7 @@
 /*   By: victorviterbo <victorviterbo@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:05:30 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/09/02 09:39:40 by victorviter      ###   ########.fr       */
+/*   Updated: 2025/09/02 09:58:19 by victorviter      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ void	safe_print(t_philo *philo, char *message)
 	state = get_state(philo);
 	pthread_mutex_lock(&philo->shared->print_lock);
 	if (state == HAS_FORK)
-		printf("%i:\tPhilo %i\thas taken a fork\n", gettime(philo), philo->id);
+		printf("%i:\tPhilo %i \thas taken a fork\n", gettime(philo), philo->id);
 	else if (philo->state == EATING)
-		printf("%i:\tPhilo %i\thas started eating\n",
+		printf("%i:\tPhilo %i \thas started eating\n",
 			gettime(philo), philo->id);
 	else if (philo->state == THINKING)
-		printf("%i:\tPhilo %i\thas started thinking\n",
+		printf("%i:\tPhilo %i \thas started thinking\n",
 			gettime(philo), philo->id);
 	else if (state == SLEEPING)
-		printf("%i:\tPhilo %i\thas started sleeping\n",
+		printf("%i:\tPhilo %i \thas started sleeping\n",
 			gettime(philo), philo->id);
 	pthread_mutex_unlock(&philo->shared->print_lock);
 	return ;

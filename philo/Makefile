@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+         #
+#    By: victorviterbo <victorviterbo@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 15:40:14 by vviterbo          #+#    #+#              #
-#    Updated: 2025/05/05 17:27:47 by vviterbo         ###   ########.fr        #
+#    Updated: 2025/09/02 09:48:30 by victorviter      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
