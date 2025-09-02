@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victorviterbo <victorviterbo@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:05:30 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/05/05 17:55:03 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/09/02 09:39:40 by victorviter      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ void	safe_print(t_philo *philo, char *message)
 	pthread_mutex_lock(&philo->shared->print_lock);
 	if (state == HAS_FORK)
 		printf("%i:\tPhilo %i\thas taken a fork\n", gettime(philo), philo->id);
-	else if (state == EATING)
-		printf("%i:\tPhilo %i\thas started eating\n", gettime(philo), philo->id);
-	else if (state == THINKING)
+	else if (philo->state == EATING)
+		printf("%i:\tPhilo %i\thas started eating\n",
+			gettime(philo), philo->id);
+	else if (philo->state == THINKING)
 		printf("%i:\tPhilo %i\thas started thinking\n",
 			gettime(philo), philo->id);
 	else if (state == SLEEPING)

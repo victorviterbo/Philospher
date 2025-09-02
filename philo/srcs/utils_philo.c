@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victorviterbo <victorviterbo@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:53:34 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/05/05 14:57:09 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/09/02 09:39:58 by victorviter      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ void	philo_finish(t_philo **philo, pthread_t *threads)
 		dead = checkphilo(philo);
 		usleep(1000);
 	}
-	set_terminate_status(philo[0], true);
+	i = 0;
+	while (i < philo[0]->param[NUM_OF_PHILO])
+	{
+		set_terminate_status(philo[i], true);
+		i++;
+	}
 	if (dead > 0)
 	{
 		pthread_mutex_lock(&philo[dead - 1]->shared->print_lock);
