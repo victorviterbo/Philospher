@@ -16,5 +16,4 @@ A solution to the classic Dining Philosophers problem, focusing on concurrency a
 - Death detection and simulation termination
 
 ## 🚀 Usage
-make
 ./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] (optional)[number_of_meals]
