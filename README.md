@@ -9,7 +9,7 @@ A solution to the classic Dining Philosophers problem, focusing on concurrency a
 - A Philosopher will eat for [time_to_eat] then sleep for [time_to_sleep]. Once he wakes up he will think until he starts eating again.
 - A Philosopher needs to start eating at most [time_to_die] after the beggining of it's last meal.
 - A Philosopher cannot eat while it sleeps.
-- A philosopher needs to have the fork to it's left and to it's right available to eat
+- A philosopher needs to have the fork to its left and to its right available to eat
 - Must prevent deadlock and starvation
 
 ## 🔧 Technical Implementation
